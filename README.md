@@ -15,7 +15,9 @@ This is an experiment to define types for YAML in TypeScript, with the goal of e
 
 ## Examples
 
-### quicktype's Buildkite pipleines
+### Buildkite pipleines
+
+Here's a sample `pipelines.yml` file for Buildkite CI:
 
 ```yaml
 steps:
@@ -35,7 +37,7 @@ steps:
     label: "csharp ruby golang"
 ```
 
-Let's write the type of the YAML in TypeScript:
+Let's write the type of the YAML in TypeScript. Immediately we have a lot more information than is evident in the YAML sample:
 
 ```typescript
 interface NormalStep {
@@ -66,7 +68,7 @@ declare var steps: Step[];
 This could be written in TypeScript as `steps.yaml.ts`:
 
 ```typescript
-import "yaml/buildkite"; // import type definitions
+import "yaml/buildkite";
 
 const fixtures = [
   "cplusplus,schema-cplusplus,kotlin,graphql",
@@ -84,6 +86,7 @@ steps = fixtures.map(fixture => ({
 
 Using:
 
+* `steps` should be typechecked
 * String interpolation
 * Data
 * `map`
