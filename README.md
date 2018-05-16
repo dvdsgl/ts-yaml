@@ -35,9 +35,39 @@ steps:
     label: "csharp ruby golang"
 ```
 
+Let's write the type of the YAML in TypeScript:
+
+```typescript
+interface NormalStep {
+  command: string;
+  label?: string;
+  artifact_paths?: string;
+  branches?: string;
+  env?: {
+    [name: string]: string;
+  };
+  agents?: {
+    queue?: string
+  };
+}
+
+type WaitStep = "wait";
+
+interface BlockStep {
+  block: string;
+  branches: string | string[];
+}
+
+type Step = NormalStep | WaitStep | BlockStep;
+
+declare var steps: Step[];
+```
+
 This could be written in TypeScript as `steps.yaml.ts`:
 
 ```typescript
+import "yaml/buildkite"; // import type definitions
+
 const fixtures = [
   "cplusplus,schema-cplusplus,kotlin,graphql",
   "java,schema-java,schema-json-csharp",
@@ -46,12 +76,10 @@ const fixtures = [
   "csharp,schema-csharp,ruby,schema-ruby,golang,schema-golang"
 ];
 
-export default {
-  steps: fixtures.map(fixture => ({
-    command: `FIXTURE=${fixture} .buildkite/build-pr.sh`,
-    label: fixture
-  }))
-};
+steps = fixtures.map(fixture => ({
+  command: `FIXTURE=${fixture} .buildkite/build-pr.sh`,
+  label: fixture
+}));
 ```
 
 Using:
