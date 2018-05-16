@@ -40,32 +40,38 @@ steps:
 Let's write the type of the YAML in TypeScript. Immediately we have a lot more information than is evident in the YAML sample:
 
 ```typescript
-interface NormalStep {
-  command: string;
+interface Step {
+  command: string | string[];
   label?: string;
-  artifact_paths?: string;
   branches?: string;
-  env?: {
-    [name: string]: string;
-  };
-  agents?: {
-    queue?: string;
-  };
+  env?: { [name: string]: string };
+  agents?: { [key: string]: string };
+  artifact_paths?: string;
+  parallelism?: number;
+  concurrency?: number;
+  concurrency_group?: string;
+  timeout_in_minutes?: number;
+  skip?: boolean | string;
+  retry?:
+    | { automatic: boolean | AutomaticRetryConditions }
+    | { manual: boolean | ManualRetryConditions };
 }
 
-type WaitStep = "wait";
-
-interface BlockStep {
-  block: string;
-  branches: string | string[];
+interface AutomaticRetryConditions {
+  exit_status?: "*" | number;
+  limit?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 }
 
-type Step = NormalStep | WaitStep | BlockStep;
+interface ManualRetryConditions {
+  allowed?: boolean;
+  reason?: string;
+  permit_on_pass?: boolean;
+}
 
 declare var steps: Step[];
 ```
 
-Let's make a file named `buildkite.yaml.ts` and define the `steps` global variable, and we immediately get code completion where we would otherwise have to search Buildkite's docs:
+Let's make a file named `pipeline.yml.ts` and define the `steps` global variable, and we immediately get code completion where we would otherwise have to search Buildkite's docs:
 
 ![](./media/code-completion.jpg)
 
@@ -90,9 +96,9 @@ steps = fixtures.map(fixture => ({
 
 Using:
 
-* `steps` should be typechecked
+* `steps` is typechecked
 * String interpolation
-* Data
+* Data (list of fixtures)
 * `map`
 
-Output YAML with `ts-yaml steps.yaml.ts`.
+Output YAML with `ts-yaml pipeline.yaml.ts`.
