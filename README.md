@@ -35,7 +35,7 @@ steps:
     label: "csharp ruby golang"
 ```
 
-This could be written in TypeScript as:
+This could be written in TypeScript as `steps.yaml.ts`:
 
 ```typescript
 const fixtures = [
@@ -54,6 +54,10 @@ export default {
 };
 ```
 
+Using:
+
 * String interpolation
 * Data
 * `map`
+
+Output YAML with `ts-yaml steps.yaml.ts`.
