@@ -49,7 +49,7 @@ interface NormalStep {
     [name: string]: string;
   };
   agents?: {
-    queue?: string
+    queue?: string;
   };
 }
 
@@ -65,7 +65,11 @@ type Step = NormalStep | WaitStep | BlockStep;
 declare var steps: Step[];
 ```
 
-This could be written in TypeScript as `steps.yaml.ts`:
+Let's make a file named `buildkite.yaml.ts` and define the `steps` global variable, and we immediately get code completion where we would otherwise have to search Buildkite's docs:
+
+![](./media/code-completion.jpg)
+
+We can finish defining our CI steps:
 
 ```typescript
 import "yaml/buildkite";
