@@ -2,11 +2,12 @@
   "name": "ts-yaml",
   "version": "1.0.0",
   "description": "Add type definitions, code completion, control flow to YAML via TypeScript",
-  "main": "index.js",
-  "directories": {
-    "example": "examples"
-  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
+    "build": "tsc --project src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +21,11 @@
   },
   "homepage": "https://github.com/dvdsgl/ts-yaml#readme",
   "devDependencies": {
+    "@types/js-yaml": "^3.11.1",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "js-yaml": "^3.11.0",
     "ts-node": "^6.0.3"
   }
 }
